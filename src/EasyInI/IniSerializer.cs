@@ -13,6 +13,7 @@ namespace EasyInI
         /// <summary>
         /// Deserializes an IniData instance into a new object of type T.
         /// Only properties marked with <see cref="IniPropertyAttribute"/> are mapped.
+        /// Note: deserialization only searches named sections, not the Global section.
         /// </summary>
         /// <typeparam name="T">The target type. Must have a parameterless constructor.</typeparam>
         /// <param name="ini">The parsed INI data.</param>
@@ -91,7 +92,6 @@ namespace EasyInI
                 object value = prop.GetValue(obj, null);
                 string valueStr = value != null ? value.ToString() : string.Empty;
 
-                data.Get(sectionName, keyName, string.Empty); // ensure section exists
                 data.Set(sectionName, keyName, valueStr);
             }
 

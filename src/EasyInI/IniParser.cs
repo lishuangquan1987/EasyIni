@@ -48,12 +48,26 @@ namespace EasyInI
         /// <returns>Parsed IniData instance.</returns>
         public static IniData ParseFile(string filePath, IniParseOptions options)
         {
+            return ParseFile(filePath, Encoding.UTF8, options);
+        }
+
+        /// <summary>
+        /// Parses an INI file with the specified encoding.
+        /// </summary>
+        /// <param name="filePath">Path to the INI file.</param>
+        /// <param name="encoding">Text encoding of the file. Defaults to UTF-8 if null.</param>
+        /// <param name="options">Parse options, or null for defaults.</param>
+        /// <returns>Parsed IniData instance.</returns>
+        public static IniData ParseFile(string filePath, Encoding encoding, IniParseOptions options)
+        {
             if (filePath == null)
                 throw new ArgumentNullException("filePath");
+            if (encoding == null)
+                encoding = Encoding.UTF8;
             if (options == null)
                 options = IniParseOptions.Default;
 
-            using (var reader = new StreamReader(filePath, Encoding.UTF8))
+            using (var reader = new StreamReader(filePath, encoding))
             {
                 return ParseReader(reader, options);
             }

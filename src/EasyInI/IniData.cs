@@ -197,7 +197,7 @@ namespace EasyInI
                 var section = _sections[i];
 
                 // Blank line between sections (unless first)
-                if (i > 0 || (Global.Entries != null && Global.Count > 0))
+                if (i > 0 || Global.Count > 0)
                     writer.WriteLine();
 
                 WriteSectionEntries(writer, section, writeHeader: true);
@@ -226,7 +226,7 @@ namespace EasyInI
         private static void WriteSectionEntries(TextWriter writer, IniSection section, bool writeHeader)
         {
             // Section leading comments
-            if (section.LeadingComments != null && section.LeadingComments.Count > 0)
+            if (section.LeadingComments.Count > 0)
             {
                 foreach (var comment in section.LeadingComments)
                 {
@@ -244,36 +244,33 @@ namespace EasyInI
             }
 
             // Entries
-            if (section.Entries != null)
+            foreach (var entry in section.Entries)
             {
-                foreach (var entry in section.Entries)
+                // Entry leading comments
+                if (entry.LeadingComments.Count > 0)
                 {
-                    // Entry leading comments
-                    if (entry.LeadingComments != null && entry.LeadingComments.Count > 0)
+                    foreach (var comment in entry.LeadingComments)
                     {
-                        foreach (var comment in entry.LeadingComments)
-                        {
-                            writer.Write(";");
-                            writer.WriteLine(comment);
-                        }
+                        writer.Write(";");
+                        writer.WriteLine(comment);
                     }
-
-                    // key=value
-                    writer.Write(entry.Key);
-                    writer.Write("=");
-                    writer.Write(NeedQuoting(entry.Value)
-                        ? QuoteValue(entry.Value.ToString())
-                        : entry.Value.ToString());
-
-                    // inline comment
-                    if (entry.InlineComment != null)
-                    {
-                        writer.Write(" ; ");
-                        writer.Write(entry.InlineComment);
-                    }
-
-                    writer.WriteLine();
                 }
+
+                // key=value
+                writer.Write(entry.Key);
+                writer.Write("=");
+                writer.Write(NeedQuoting(entry.Value)
+                    ? QuoteValue(entry.Value.ToString())
+                    : entry.Value.ToString());
+
+                // inline comment
+                if (entry.InlineComment != null)
+                {
+                    writer.Write(" ; ");
+                    writer.Write(entry.InlineComment);
+                }
+
+                writer.WriteLine();
             }
         }
 
