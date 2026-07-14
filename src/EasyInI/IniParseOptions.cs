@@ -1,6 +1,6 @@
 using System;
 
-namespace EasyInI
+namespace EasyIni
 {
     /// <summary>
     /// Specifies how to handle duplicate keys within a section during parsing.

@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace EasyInI
+namespace EasyIni
 {
     /// <summary>
     /// Wraps an INI value string and provides type conversion.

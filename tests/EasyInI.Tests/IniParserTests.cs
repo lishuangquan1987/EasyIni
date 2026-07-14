@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace EasyInI.Tests
+namespace EasyIni.Tests
 {
     public class IniParserTests
     {

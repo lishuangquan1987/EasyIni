@@ -1,6 +1,6 @@
 using System;
 
-namespace EasyInI
+namespace EasyIni
 {
     /// <summary>
     /// Maps a class property to an INI key.

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace EasyInI
+namespace EasyIni
 {
     /// <summary>
     /// Represents a complete INI file: a collection of named sections

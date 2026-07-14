@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace EasyInI
+namespace EasyIni
 {
     /// <summary>
     /// Static parser for INI text and files.

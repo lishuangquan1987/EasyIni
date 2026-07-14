@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <LangVersion>5</LangVersion>
-    <RootNamespace>EasyInI.Tests</RootNamespace>
+    <RootNamespace>EasyIni.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\EasyInI\EasyInI.csproj" />
+    <ProjectReference Include="..\..\src\EasyIni\EasyIni.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace EasyInI
+namespace EasyIni
 {
     /// <summary>
     /// Represents a single key=value entry within an INI section,

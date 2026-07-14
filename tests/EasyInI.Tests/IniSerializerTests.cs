@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace EasyInI.Tests
+namespace EasyIni.Tests
 {
     [IniSection("db")]
     public class DatabaseConfig

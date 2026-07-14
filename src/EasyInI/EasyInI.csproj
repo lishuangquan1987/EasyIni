@@ -3,14 +3,14 @@
   <PropertyGroup>
     <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
     <LangVersion>5</LangVersion>
-    <RootNamespace>EasyInI</RootNamespace>
-    <AssemblyName>EasyInI</AssemblyName>
+    <RootNamespace>EasyIni</RootNamespace>
+    <AssemblyName>EasyIni</AssemblyName>
     <Version>1.0.0</Version>
-    <Authors>EasyInI Contributors</Authors>
+    <Authors>EasyIni Contributors</Authors>
     <Description>A lightweight INI file parser for .NET, supporting .NET 4.0+ and .NET Standard 2.0+. Features generic deserialization, comment preservation, and cross-platform compatibility.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/org/EasyInI</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/org/EasyInI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/org/EasyIni</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/org/EasyIni</RepositoryUrl>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>

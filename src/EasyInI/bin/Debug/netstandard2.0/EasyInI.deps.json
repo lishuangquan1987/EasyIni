@@ -7,15 +7,15 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "EasyInI/1.0.0": {
+      "EasyIni/1.0.0": {
         "runtime": {
-          "EasyInI.dll": {}
+          "EasyIni.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "EasyInI/1.0.0": {
+    "EasyIni/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

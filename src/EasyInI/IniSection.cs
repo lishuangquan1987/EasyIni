@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace EasyInI
+namespace EasyIni
 {
     /// <summary>
     /// Represents an INI section: [SectionName] followed by key=value entries.

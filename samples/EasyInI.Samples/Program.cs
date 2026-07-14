@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace EasyInI.Samples
+namespace EasyIni.Samples
 {
     // === POCO models for strongly-typed mapping demo ===
 
@@ -41,7 +41,7 @@ namespace EasyInI.Samples
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("=== EasyInI Samples ===\n");
+            Console.WriteLine("=== EasyIni Samples ===\n");
 
             Sample1_BasicParsing();
             Sample2_DictionaryStyleAccess();
@@ -84,7 +84,7 @@ namespace EasyInI.Samples
             Console.WriteLine("--- 1. Basic Parsing ---");
 
             var ini = IniParser.Parse(@"
-app_name=EasyInI
+app_name=EasyIni
 version=1.0
 
 [server]
@@ -416,7 +416,7 @@ port=5432
             var ini = new IniData();
 
             // Global entries
-            ini.Global["created_by"] = new IniValue("EasyInI Samples");
+            ini.Global["created_by"] = new IniValue("EasyIni Samples");
             ini.Global["created_at"] = new IniValue(DateTime.Now.ToString("yyyy-MM-dd"));
 
             // Server section

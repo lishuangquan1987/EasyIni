@@ -1,8 +1,8 @@
-# EasyInI
+# EasyIni
 
 A lightweight INI file parser for .NET, targeting **.NET Framework 4.0+** and **.NET Standard 2.0+**, with full cross-platform support including Windows XP.
 
-[![NuGet](https://img.shields.io/nuget/v/EasyInI.svg)](https://www.nuget.org/packages/EasyInI)
+[![NuGet](https://img.shields.io/nuget/v/EasyIni.svg)](https://www.nuget.org/packages/EasyIni)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## Features
@@ -18,13 +18,13 @@ A lightweight INI file parser for .NET, targeting **.NET Framework 4.0+** and **
 ## Installation
 
 ```bash
-dotnet add package EasyInI
+dotnet add package EasyIni
 ```
 
 Or via NuGet Package Manager:
 
 ```
-Install-Package EasyInI
+Install-Package EasyIni
 ```
 
 ## Quick Start
@@ -32,7 +32,7 @@ Install-Package EasyInI
 ### Basic Parsing
 
 ```csharp
-using EasyInI;
+using EasyIni;
 
 string iniText = @"
 ; Database configuration

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace EasyInI
+namespace EasyIni
 {
     /// <summary>
     /// Provides generic serialization and deserialization between

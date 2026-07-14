@@ -1,11 +1,11 @@
 <Solution>
   <Folder Name="/samples/">
-    <Project Path="samples/EasyInI.Samples/EasyInI.Samples.csproj" />
+    <Project Path="samples/EasyIni.Samples/EasyIni.Samples.csproj" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src/EasyInI/EasyInI.csproj" />
+    <Project Path="src/EasyIni/EasyIni.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/EasyInI.Tests/EasyInI.Tests.csproj" />
+    <Project Path="tests/EasyIni.Tests/EasyIni.Tests.csproj" />
   </Folder>
 </Solution>
