@@ -1,0 +1,547 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EasyInI</name>
+    </assembly>
+    <members>
+        <member name="T:EasyInI.IniData">
+            <summary>
+            Represents a complete INI file: a collection of named sections
+            plus a Global section for entries that appear before any [section] header.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniData.Global">
+            <summary>
+            Gets the default section for keys declared before any [section] header.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniData.Item(System.String)">
+            <summary>
+            Gets or creates the section with the given name.
+            Section name lookup respects the case-sensitivity setting from parse options.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.#ctor(System.Collections.Generic.IEqualityComparer{System.String},System.Collections.Generic.IEqualityComparer{System.String})">
+            <summary>
+            Creates an IniData instance with the specified comparers.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.#ctor">
+            <summary>
+            Creates an IniData with case-insensitive section and key names (default).
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniData.SectionCount">
+            <summary>
+            Gets the number of sections (excluding Global).
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniData.Sections">
+            <summary>
+            Returns all sections in file order (excluding Global).
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.ContainsSection(System.String)">
+            <summary>
+            Checks whether a named section exists.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.AddSection(System.String)">
+            <summary>
+            Adds a new section. Throws if a section with the same name already exists.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.AddOrGetSection(System.String)">
+            <summary>
+            Gets an existing section or creates it if it does not exist.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.RemoveSection(System.String)">
+            <summary>
+            Removes the specified section. Returns true if it was found and removed.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.Get``1(System.String,System.String)">
+            <summary>
+            Shortcut: gets a typed value from a section.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.Get``1(System.String,System.String,``0)">
+            <summary>
+            Shortcut: gets a typed value with a default.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.Set(System.String,System.String,System.String)">
+            <summary>
+            Shortcut: sets a value in a section. Creates the section if it does not exist.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.Set(System.String,System.String,EasyInI.IniValue)">
+            <summary>
+            Shortcut: sets an IniValue in a section. Creates the section if it does not exist.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.ToString">
+            <summary>
+            Serializes the entire IniData to INI text, preserving comments and entry order.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.WriteTo(System.IO.TextWriter)">
+            <summary>
+            Writes the INI content to the given TextWriter.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.Save(System.String)">
+            <summary>
+            Saves the INI content to a file.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniData.Save(System.String,System.Text.Encoding)">
+            <summary>
+            Saves the INI content to a file with the specified encoding.
+            </summary>
+        </member>
+        <member name="T:EasyInI.IniEntry">
+            <summary>
+            Represents a single key=value entry within an INI section,
+            along with its associated comments.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniEntry.Key">
+            <summary>
+            Gets the key name.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniEntry.Value">
+            <summary>
+            Gets or sets the entry value.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniEntry.LeadingComments">
+            <summary>
+            Comment lines appearing before this entry.
+            Each element is one comment line without the leading ';' or '#'.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniEntry.InlineComment">
+            <summary>
+            Comment appearing on the same line after the value, or null.
+            Does not include the leading ';' or '#'.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniEntry.#ctor(System.String,System.String)">
+            <summary>
+            Creates an entry with the specified key and string value.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniEntry.#ctor(System.String,EasyInI.IniValue)">
+            <summary>
+            Creates an entry with the specified key and IniValue.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniEntry.ToString">
+            <summary>
+            Returns "key=value".
+            </summary>
+        </member>
+        <member name="T:EasyInI.DuplicateKeyBehavior">
+            <summary>
+            Specifies how to handle duplicate keys within a section during parsing.
+            </summary>
+        </member>
+        <member name="F:EasyInI.DuplicateKeyBehavior.Overwrite">
+            <summary>
+            The last occurrence of a key overwrites earlier ones.
+            </summary>
+        </member>
+        <member name="F:EasyInI.DuplicateKeyBehavior.Throw">
+            <summary>
+            A duplicate key causes a parse exception.
+            </summary>
+        </member>
+        <member name="F:EasyInI.DuplicateKeyBehavior.Ignore">
+            <summary>
+            The first occurrence is kept; later duplicates are ignored.
+            </summary>
+        </member>
+        <member name="T:EasyInI.IniParseOptions">
+            <summary>
+            Configuration options for INI parsing and serialization behavior.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniParseOptions.CaseSensitive">
+            <summary>
+            Gets or sets whether section and key names are case-sensitive.
+            Default: false (case-insensitive).
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniParseOptions.DuplicateKeyBehavior">
+            <summary>
+            Gets or sets how duplicate keys within a section are handled.
+            Default: Overwrite.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniParseOptions.AllowQuotedValues">
+            <summary>
+            Gets or sets whether values wrapped in double quotes have their quotes
+            stripped during parsing. Default: true.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniParseOptions.TrimWhitespace">
+            <summary>
+            Gets or sets whether leading and trailing whitespace is trimmed
+            from keys and unquoted values. Default: true.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniParseOptions.Default">
+            <summary>
+            Gets the default parse options (case-insensitive, overwrite duplicates,
+            allow quotes, trim whitespace).
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniParseOptions.#ctor">
+            <summary>
+            Creates a new instance with default values.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniParseOptions.GetKeyComparer">
+            <summary>
+            Returns the string comparer implied by CaseSensitive setting.
+            </summary>
+        </member>
+        <member name="T:EasyInI.IniParser">
+            <summary>
+            Static parser for INI text and files.
+            Produces IniData with comment and format preservation.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniParser.Parse(System.String,EasyInI.IniParseOptions)">
+            <summary>
+            Parses an INI string into an IniData object.
+            </summary>
+            <param name="iniText">The INI content.</param>
+            <param name="options">Parse options, or null for defaults.</param>
+            <returns>Parsed IniData instance.</returns>
+            <exception cref="T:EasyInI.IniParseException">Thrown when the INI text is malformed
+            or when DuplicateKeyBehavior is Throw and a duplicate is encountered.</exception>
+        </member>
+        <member name="M:EasyInI.IniParser.Parse(System.String)">
+            <summary>
+            Parses an INI string using default options.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniParser.ParseFile(System.String,EasyInI.IniParseOptions)">
+            <summary>
+            Parses an INI file into an IniData object.
+            </summary>
+            <param name="filePath">Path to the INI file.</param>
+            <param name="options">Parse options, or null for defaults.</param>
+            <returns>Parsed IniData instance.</returns>
+        </member>
+        <member name="M:EasyInI.IniParser.ParseFile(System.String)">
+            <summary>
+            Parses an INI file using default options.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniParser.TryParse(System.String,EasyInI.IniData@,System.String@)">
+            <summary>
+            Tries to parse an INI string. Returns false on failure and sets
+            the error message in <paramref name="error"/>.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniParser.TryParse(System.String,EasyInI.IniParseOptions,EasyInI.IniData@,System.String@)">
+            <summary>
+            Tries to parse an INI string with the given options.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniParser.FindCommentStart(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Finds the start of a comment (; or #) outside of quotes within text.
+            Returns the index of the comment character, or -1 if none found.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniParser.IsQuoted(System.String)">
+            <summary>
+            Returns true if the value is wrapped in double quotes.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniParser.Unquote(System.String)">
+            <summary>
+            Removes surrounding quotes and unescapes doubled quotes.
+            </summary>
+        </member>
+        <member name="T:EasyInI.IniParseException">
+            <summary>
+            Exception thrown when INI parsing fails.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniParseException.#ctor(System.String)">
+            <summary>
+            Creates an IniParseException with a message.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniParseException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates an IniParseException with a message and inner exception.
+            </summary>
+        </member>
+        <member name="T:EasyInI.IniPropertyAttribute">
+            <summary>
+            Maps a class property to an INI key.
+            Optionally specifies the target section name.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniPropertyAttribute.Name">
+            <summary>
+            Gets the INI key name that this property maps to.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniPropertyAttribute.Section">
+            <summary>
+            Gets or sets the INI section name for this property.
+            If not set, the section from <see cref="T:EasyInI.IniSectionAttribute"/>
+            on the class is used, or the class name itself as a fallback.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniPropertyAttribute.#ctor(System.String)">
+            <summary>
+            Maps a property to an INI key with the given name.
+            </summary>
+            <param name="name">The INI key name.</param>
+        </member>
+        <member name="T:EasyInI.IniSectionAttribute">
+            <summary>
+            Specifies the default INI section name for a class when none is
+            specified on individual properties.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniSectionAttribute.Name">
+            <summary>
+            Gets the section name.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSectionAttribute.#ctor(System.String)">
+            <summary>
+            Sets the default section for all properties in this class.
+            </summary>
+        </member>
+        <member name="T:EasyInI.IniSection">
+            <summary>
+            Represents an INI section: [SectionName] followed by key=value entries.
+            Entries are ordered as they appear in the file.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniSection.Name">
+            <summary>
+            Gets the section name (without brackets).
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniSection.LeadingComments">
+            <summary>
+            Comment lines appearing before the [section] header.
+            Each element is one comment line without the leading ';' or '#'.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniSection.Item(System.String)">
+            <summary>
+            Gets or sets the entry value for the specified key.
+            Setting a key that does not exist will add a new entry at the end.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSection.#ctor(System.String,System.Collections.Generic.IEqualityComparer{System.String})">
+            <summary>
+            Creates a section with the given name.
+            </summary>
+            <param name="name">Section name (without brackets).</param>
+            <param name="keyComparer">Key equality comparer for case sensitivity.</param>
+        </member>
+        <member name="M:EasyInI.IniSection.#ctor(System.String)">
+            <summary>
+            Creates a section with case-insensitive key lookup (default).
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniSection.Count">
+            <summary>
+            Gets the number of entries in this section.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniSection.Entries">
+            <summary>
+            Returns all entries in file order.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniSection.Keys">
+            <summary>
+            Returns all keys in file order.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSection.GetEntry(System.String)">
+            <summary>
+            Returns the IniEntry for the specified key, or null if not found.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSection.ContainsKey(System.String)">
+            <summary>
+            Checks whether a key exists in this section.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSection.GetValueOrDefault(System.String,EasyInI.IniValue)">
+            <summary>
+            Gets a value by key, returning the specified default if the key is not found.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSection.Get``1(System.String)">
+            <summary>
+            Gets a typed value by key.
+            Throws KeyNotFoundException if the key does not exist.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSection.Get``1(System.String,``0)">
+            <summary>
+            Gets a typed value by key, returning the specified default if not found or conversion fails.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSection.Set(System.String,System.String)">
+            <summary>
+            Sets a key to a string value. Creates the key if it does not exist.
+            Returns the IniEntry that was created or updated.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSection.Set(System.String,EasyInI.IniValue)">
+            <summary>
+            Sets a key to an IniValue. Creates the key if it does not exist.
+            Returns the IniEntry that was created or updated.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSection.Remove(System.String)">
+            <summary>
+            Removes the entry with the specified key.
+            Returns true if the entry was found and removed.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSection.GetEnumerator">
+            <summary>
+            Returns an enumerator over entries in file order.
+            </summary>
+        </member>
+        <member name="T:EasyInI.IniSerializer">
+            <summary>
+            Provides generic serialization and deserialization between
+            POCO objects and IniData.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSerializer.Deserialize``1(EasyInI.IniData)">
+            <summary>
+            Deserializes an IniData instance into a new object of type T.
+            Only properties marked with <see cref="T:EasyInI.IniPropertyAttribute"/> are mapped.
+            </summary>
+            <typeparam name="T">The target type. Must have a parameterless constructor.</typeparam>
+            <param name="ini">The parsed INI data.</param>
+            <returns>A new instance of T populated from the INI data.</returns>
+        </member>
+        <member name="M:EasyInI.IniSerializer.Deserialize``1(System.String)">
+            <summary>
+            Deserializes an INI string directly into an object of type T.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSerializer.Serialize``1(``0)">
+            <summary>
+            Serializes an object into an IniData instance.
+            Properties are grouped into sections based on their
+            <see cref="P:EasyInI.IniPropertyAttribute.Section"/> or the class-level
+            <see cref="T:EasyInI.IniSectionAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniSerializer.SerializeToString``1(``0)">
+            <summary>
+            Serializes an object directly to an INI string.
+            </summary>
+        </member>
+        <member name="T:EasyInI.IniValue">
+            <summary>
+            Wraps an INI value string and provides type conversion.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniValue.Value">
+            <summary>
+            Gets the raw string value, or null if this instance represents no value.
+            </summary>
+        </member>
+        <member name="P:EasyInI.IniValue.HasValue">
+            <summary>
+            Gets whether this instance holds a non-null value.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.#ctor(System.String)">
+            <summary>
+            Creates an IniValue wrapping the given string.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.Get``1">
+            <summary>
+            Converts the value to the specified type.
+            Throws InvalidCastException if conversion fails.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.Get``1(``0)">
+            <summary>
+            Converts the value to the specified type, returning defaultValue on failure.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.ToString">
+            <summary>
+            Returns the raw string value or the default string if null.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.GetHashCode">
+            <summary>
+            Returns the hash code of the underlying value.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.Equals(System.Object)">
+            <summary>
+            Two IniValue instances are equal if their raw values are equal.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.Equals(EasyInI.IniValue)">
+            <summary>
+            Two IniValue instances are equal if their raw values are equal.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.op_Implicit(EasyInI.IniValue)~System.String">
+            <summary>
+            Implicitly converts the IniValue to its raw string.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.op_Implicit(System.String)~EasyInI.IniValue">
+            <summary>
+            Implicitly converts a string to an IniValue.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.op_Implicit(EasyInI.IniValue)~System.Int32">
+            <summary>
+            Implicitly converts the IniValue to an int.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.op_Implicit(EasyInI.IniValue)~System.Boolean">
+            <summary>
+            Implicitly converts the IniValue to a bool.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.op_Implicit(EasyInI.IniValue)~System.Double">
+            <summary>
+            Implicitly converts the IniValue to a double.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.op_Equality(EasyInI.IniValue,EasyInI.IniValue)">
+            <summary>
+            Returns true if two IniValue instances are equal.
+            </summary>
+        </member>
+        <member name="M:EasyInI.IniValue.op_Inequality(EasyInI.IniValue,EasyInI.IniValue)">
+            <summary>
+            Returns true if two IniValue instances are not equal.
+            </summary>
+        </member>
+    </members>
+</doc>
