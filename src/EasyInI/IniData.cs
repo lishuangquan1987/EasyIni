@@ -16,6 +16,14 @@ namespace EasyIni
         private readonly IEqualityComparer<string> _keyComparer;
 
         /// <summary>
+        /// Gets or sets the encoding used to read the INI file.
+        /// When set by <see cref="IniParser.ParseFile(string)"/> during auto-detection,
+        /// <see cref="Save(string)"/> reuses this encoding so the file encoding is preserved.
+        /// Defaults to null (treated as UTF-8 on save).
+        /// </summary>
+        public Encoding FileEncoding { get; set; }
+
+        /// <summary>
         /// Gets the default section for keys declared before any [section] header.
         /// </summary>
         public IniSection Global { get; private set; }
@@ -209,7 +217,7 @@ namespace EasyIni
         /// </summary>
         public void Save(string filePath)
         {
-            Save(filePath, Encoding.UTF8);
+            Save(filePath, FileEncoding ?? Encoding.UTF8);
         }
 
         /// <summary>

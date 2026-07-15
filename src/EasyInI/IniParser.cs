@@ -48,29 +48,60 @@ namespace EasyIni
         /// <returns>Parsed IniData instance.</returns>
         public static IniData ParseFile(string filePath, IniParseOptions options)
         {
-            return ParseFile(filePath, Encoding.UTF8, options);
+            return ParseFile(filePath, null, options);
         }
 
         /// <summary>
         /// Parses an INI file with the specified encoding.
         /// </summary>
         /// <param name="filePath">Path to the INI file.</param>
-        /// <param name="encoding">Text encoding of the file. Defaults to UTF-8 if null.</param>
+        /// <param name="encoding">Text encoding of the file. If null, encoding is auto-detected
+        /// from the file's byte order mark (BOM).</param>
         /// <param name="options">Parse options, or null for defaults.</param>
         /// <returns>Parsed IniData instance.</returns>
         public static IniData ParseFile(string filePath, Encoding encoding, IniParseOptions options)
         {
             if (filePath == null)
                 throw new ArgumentNullException("filePath");
-            if (encoding == null)
-                encoding = Encoding.UTF8;
             if (options == null)
                 options = IniParseOptions.Default;
 
-            using (var reader = new StreamReader(filePath, encoding))
+            IniData data;
+
+            if (encoding != null)
             {
-                return ParseReader(reader, options);
+                // User specified encoding — use it directly, BOM detection on for safety
+                using (var reader = new StreamReader(filePath, encoding, true))
+                {
+                    data = ParseReader(reader, options);
+                }
+                data.FileEncoding = encoding;
             }
+            else
+            {
+                // Auto-detect encoding from file BOM (single open: detect + read)
+                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    bool hasUtf8Bom;
+                    Encoding detected = DetectFileEncoding(fs, out hasUtf8Bom);
+                    // Stream is now positioned past the BOM (or at 0 if none)
+
+                    using (var reader = new StreamReader(fs, detected))
+                    {
+                        data = ParseReader(reader, options);
+                    }
+
+                    // Preserve encoding for round-trip:
+                    // UTF-8 without BOM → use UTF8Encoding(false) to avoid adding BOM on save
+                    // All other cases → use the detected encoding as-is
+                    if (detected is UTF8Encoding && !hasUtf8Bom)
+                        data.FileEncoding = new UTF8Encoding(false);
+                    else
+                        data.FileEncoding = detected;
+                }
+            }
+
+            return data;
         }
 
         /// <summary>
@@ -108,6 +139,64 @@ namespace EasyIni
                 error = ex.Message;
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Detects file encoding by reading the byte order mark (BOM) from the stream.
+        /// After returning, the stream position is advanced past the BOM (or reset to 0 if no BOM).
+        /// Supported: UTF-8, UTF-16 LE, UTF-16 BE, UTF-32 LE.
+        /// </summary>
+        /// <param name="stream">An open, seekable file stream.</param>
+        /// <param name="hasUtf8Bom">True if a UTF-8 BOM was detected.</param>
+        /// <returns>The detected encoding. Defaults to UTF-8 if no BOM is found.</returns>
+        private static Encoding DetectFileEncoding(FileStream stream, out bool hasUtf8Bom)
+        {
+            hasUtf8Bom = false;
+
+            byte[] bom = new byte[4];
+            int total = 0, n;
+            while (total < 4 && (n = stream.Read(bom, total, 4 - total)) > 0)
+                total += n;
+
+            int bomLen = 0;
+            Encoding result;
+
+            // UTF-32 LE: FF FE 00 00 (check before UTF-16 LE)
+            if (total >= 4 && bom[0] == 0xFF && bom[1] == 0xFE
+                && bom[2] == 0x00 && bom[3] == 0x00)
+            {
+                bomLen = 4;
+                result = Encoding.UTF32;
+            }
+            // UTF-16 BE: FE FF
+            else if (total >= 2 && bom[0] == 0xFE && bom[1] == 0xFF)
+            {
+                bomLen = 2;
+                result = Encoding.BigEndianUnicode;
+            }
+            // UTF-16 LE: FF FE
+            else if (total >= 2 && bom[0] == 0xFF && bom[1] == 0xFE)
+            {
+                bomLen = 2;
+                result = Encoding.Unicode;
+            }
+            // UTF-8: EF BB BF
+            else if (total >= 3 && bom[0] == 0xEF && bom[1] == 0xBB && bom[2] == 0xBF)
+            {
+                hasUtf8Bom = true;
+                bomLen = 3;
+                result = Encoding.UTF8;
+            }
+            // No BOM
+            else
+            {
+                bomLen = 0;
+                result = Encoding.UTF8;
+            }
+
+            // Position stream past the BOM (or back to 0 if none)
+            stream.Seek(bomLen, SeekOrigin.Begin);
+            return result;
         }
 
         private static IniData ParseReader(TextReader reader, IniParseOptions options)
